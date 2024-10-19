@@ -24,7 +24,7 @@ export const getEvents = async (req, res, next) => {
                 break;
         }
 
-        const response = await axios.get(`https://www.googleapis.com/calendar/v3/calendars/${calendarId}/events?&key=${config.googleCalendarConfig.apiKey}`);
+        const response = await axios.get(`https://www.googleapis.com/calendar/v3/calendars/${calendarId}/events?timeMin=${new Date().toISOString()}&key=${config.googleCalendarConfig.apiKey}`);
         if (!response.data.items) return [];
 
         let events = [];
