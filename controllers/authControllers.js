@@ -11,7 +11,7 @@ const auth = getAuth();
 
 export const signIn = async (req, res, next) => {
     try {
-        const userCredentials = await signInWithEmailAndPassword(auth, req.body.email, req.body.password);
+        const userCredentials = await signInWithEmailAndPassword(auth, req.body.data.email, req.body.data.password);
         const token = await userCredentials.user.getIdToken();
 
         res.cookie('authToken', token, {
@@ -22,27 +22,27 @@ export const signIn = async (req, res, next) => {
         });
         res.status(200).send('Login successfull');
     } catch (error) {
-        if (error.code === 'auth/invalid-credential') res.status(401).send('auth/invalid-credential');
+        if (error.code === 'auth/invalid-credential') return res.status(401).send('auth/invalid-credential');
         res.status(400).send(error.message);
     }
 };
 
 export const createUser = async (req, res, next) => {
     try {
-        const userCredentials = await createUserWithEmailAndPassword(auth, req.body.email, req.body.password);
+        const userCredentials = await createUserWithEmailAndPassword(auth, req.body.data.email, req.body.data.password);
         
         await updateProfile(userCredentials.user, {
             displayName: `${req.body.firstname} ${req.body.lastname.charAt(0)}.`,
         });
 
-        await firebaseAdmin.auth().setCustomUserClaims(userCredentials.user.uid, { 'roles': [req.body.role]});
+        await firebaseAdmin.auth().setCustomUserClaims(userCredentials.user.uid, { 'roles': [req.body.data.role]});
         
         res.status(201).json({
             message: 'New user created successfully!',
             user: {
                 email: userCredentials.user.email,
                 displayName: userCredentials.user.displayName,
-                role: req.body.role
+                role: req.body.data.role
             },
         });
     } catch (error) {
