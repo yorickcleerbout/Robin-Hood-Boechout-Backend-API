@@ -11,11 +11,13 @@ app.use(express.json());
 import postRoute from './routes/postRoute.js';
 import trainingRoute from './routes/trainingRoute.js';
 import eventRoute from './routes/eventRoute.js';
+import subscriberRoute from './routes/subscriberRoute.js';
 
 // ROUTES
 app.use('/api/v1', postRoute);
 app.use('/api/v1', trainingRoute);
 app.use('/api/v1', eventRoute);
+app.use('/api/v1', subscriberRoute);
 
 // API SERVER STARTUP
 app.listen(config.port, () =>

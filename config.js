@@ -16,7 +16,12 @@ const {
   GOOGLE_CALENDAR_API_KEY,
   LUCHTDOELSCHIETEN_ID,
   ROBIN_HOOD_BOECHOUT_ID,
-  ANTWERPSE_FEDERATIE_ID
+  ANTWERPSE_FEDERATIE_ID,
+  EMAIL_USER,
+  EMAIL_PASSWORD,
+  EMAIL_FROM,
+  EMAIL_HOST,
+  EMAIL_PORT
 } = process.env;
 
 assert(PORT, 'Port is required');
@@ -39,5 +44,12 @@ export default {
     luchtdoelschietenId: LUCHTDOELSCHIETEN_ID,
     robinHoodBoechoutId: ROBIN_HOOD_BOECHOUT_ID,
     antwerpseFederatieId: ANTWERPSE_FEDERATIE_ID
+  },
+  emailConfig: {
+    user: EMAIL_USER,
+    password: EMAIL_PASSWORD,
+    sender: EMAIL_FROM,
+    host: EMAIL_HOST,
+    port: EMAIL_PORT
   }
 };
