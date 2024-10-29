@@ -50,14 +50,8 @@ export const signIn = async (req, res, next) => {
     try {
         const userCredentials = await signInWithEmailAndPassword(auth, req.body.data.email, req.body.data.password);
         const token = await userCredentials.user.getIdToken();
-
-        res.cookie('authToken', token, {
-            httpOnly: true,  // Prevent JavaScript access
-            secure: true,    // Ensures the cookie is sent only over HTTPS
-            sameSite: 'Strict',  // Prevents cross-site request forgery (CSRF)
-            maxAge: 60 * 60 * 1000,  // 1 hour expiration
-        });
-        res.status(200).send('Login successfull');
+        
+        res.status(200).json({token});
     } catch (error) {
         if (error.code === 'auth/invalid-credential') return res.status(401).send('auth/invalid-credential');
         res.status(400).send(error.message);
@@ -128,4 +122,30 @@ export const createUser = async (req, res, next) => {
         if (error.code === 'auth/missing-password') res.status(400).send('auth/missing-password');
         res.status(400).send(error);
     }
+};
+
+// HELPER FUNCTION FOR VALIDATION ID-TOKEN
+export const verifyIdToken = async (token) => {
+    try {
+        const decodedToken = await firebaseAdmin.auth().verifyIdToken(token);
+
+        return { status: 200, details: decodedToken }
+    } catch (error) {
+        if (error.code === 'auth/id-token-expired') {
+            return { status: 401, details: 'Token Expired' }
+        } else if (error.code === 'auth/invalid-id-token') {
+            return { status: 401, details: 'Invalid Token' }
+        } else {
+            return { status: 500, details: 'Internal Server Error' }
+        }
+    }
+};
+
+export const verifyToken = async (req, res, next) => {
+    if (!req.headers.authorization) return res.status(400).send("Missing Authorization");
+
+    const { status, details } = await verifyIdToken(req.headers.authorization.split(' ')[1]);
+
+    res.status(status).send(details);
+    next();
 };
