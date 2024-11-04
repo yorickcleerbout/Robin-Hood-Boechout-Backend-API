@@ -128,8 +128,9 @@ export const createUser = async (req, res, next) => {
 export const verifyIdToken = async (token) => {
     try {
         const decodedToken = await firebaseAdmin.auth().verifyIdToken(token);
+        const user = await firebaseAdmin.auth().getUser(decodedToken.user_id);
 
-        return { status: 200, details: decodedToken }
+        return { status: 200, details: decodedToken, user: user}
     } catch (error) {
         if (error.code === 'auth/id-token-expired') {
             return { status: 401, details: 'Token Expired' }
@@ -144,8 +145,9 @@ export const verifyIdToken = async (token) => {
 export const verifyToken = async (req, res, next) => {
     if (!req.headers.authorization) return res.status(400).send("Missing Authorization");
 
-    const { status, details } = await verifyIdToken(req.headers.authorization.split(' ')[1]);
-
+    const { status, details, user } = await verifyIdToken(req.headers.authorization.split(' ')[1]);
+    
+    res.user = user;
     res.status(status).send(details);
     next();
 };
