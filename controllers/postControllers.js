@@ -31,6 +31,7 @@ export const getPosts = async (req, res, next) => {
                 doc.data().post_details,
                 doc.data().tag,
                 doc.data().created_at,
+                doc.data().published_at,
                 doc.data().author,
                 doc.data().featured,
             );
@@ -59,6 +60,7 @@ export const getPostBySlug = async (req, res, next) => {
                 doc.data().post_details,
                 doc.data().tag,
                 doc.data().created_at,
+                doc.data().published_at,
                 doc.data().author,
                 doc.data().featured,
             );
