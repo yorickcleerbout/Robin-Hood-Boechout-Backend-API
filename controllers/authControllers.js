@@ -106,7 +106,7 @@ export const createUser = async (req, res, next) => {
             displayName: `${req.body.firstname} ${req.body.lastname.charAt(0)}.`,
         });
 
-        await firebaseAdmin.auth().setCustomUserClaims(userCredentials.user.uid, { 'roles': [req.body.data.role]});
+        await firebaseAdmin.auth().setCustomUserClaims(userCredentials.user.uid, { 'role': req.body.role});
         
         res.status(201).json({
             message: 'New user created successfully!',
@@ -148,6 +148,11 @@ export const verifyToken = async (req, res, next) => {
     const { status, details, user } = await verifyIdToken(req.headers.authorization.split(' ')[1]);
     
     res.user = user;
-    res.status(status).send(details);
     next();
+};
+
+export const userInfo = async (req, res, next) => {
+    const { status, details, user } = await verifyIdToken(req.headers.authorization.split(' ')[1]);
+    res.user = user;
+    res.status(status).send(details);
 };
