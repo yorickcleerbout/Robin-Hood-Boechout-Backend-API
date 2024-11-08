@@ -4,10 +4,11 @@ import {
     getTrainings,
     createTraining
 } from '../controllers/trainingControllers.js';
+import { verifyToken } from '../controllers/authControllers.js';
 
 const router = express.Router();
 
 router.get('/trainings', getTrainings);
-router.post('/trainings', createTraining);
+router.post('/trainings', verifyToken, createTraining);
 
 export default router;
