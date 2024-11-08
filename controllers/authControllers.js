@@ -48,7 +48,7 @@ export const accessRequestExists = async (email) => {
 
 export const signIn = async (req, res, next) => {
     try {
-        const userCredentials = await signInWithEmailAndPassword(auth, req.body.data.email, req.body.data.password);
+        const userCredentials = await signInWithEmailAndPassword(auth, req.body.email, req.body.password);
         const token = await userCredentials.user.getIdToken();
         
         res.status(200).json({token});
@@ -100,7 +100,7 @@ export const requestAccess = async (req, res, next) => {
 
 export const createUser = async (req, res, next) => {
     try {
-        const userCredentials = await createUserWithEmailAndPassword(auth, req.body.data.email, req.body.data.password);
+        const userCredentials = await createUserWithEmailAndPassword(auth, req.body.email, req.body.password);
         
         await updateProfile(userCredentials.user, {
             displayName: `${req.body.firstname} ${req.body.lastname.charAt(0)}.`,
@@ -113,7 +113,7 @@ export const createUser = async (req, res, next) => {
             user: {
                 email: userCredentials.user.email,
                 displayName: userCredentials.user.displayName,
-                role: req.body.data.role
+                role: req.body.role
             },
         });
     } catch (error) {
