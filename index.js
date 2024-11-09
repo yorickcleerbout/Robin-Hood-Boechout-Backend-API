@@ -25,6 +25,6 @@ app.use('/api/v1', subscriberRoute);
 app.use('/api/v1', authRoute);
 
 // API SERVER STARTUP
-app.listen(config.port, () =>
-  console.log(`Server is live @ ${config.hostUrl}`),
-);
+// app.listen(config.port, () =>
+//   console.log(`Server is live @ ${config.hostUrl}`),
+// );
