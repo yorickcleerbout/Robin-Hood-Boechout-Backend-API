@@ -28,3 +28,4 @@ app.use('/api/v1', authRoute);
 // app.listen(config.port, () =>
 //   console.log(`Server is live @ ${config.hostUrl}`),
 // );
+export default app;
