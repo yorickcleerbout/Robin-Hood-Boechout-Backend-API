@@ -26,6 +26,7 @@
     "dev": "nodemon index.js",
     "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "echo Robin Hood Boechout API has been build.",
     "vercel-build": "echo Robin Hood Boechout API has been build."
   },
   "author": "Yorick Cleerbout",
