@@ -5,7 +5,7 @@ import config from './config.js';
 
 const app = express();
 
-app.use(cors({ origin: ['https://api.robinhoodboechout.be', 'http://localhost:3000'], credentials: true }));
+app.use(cors({ origin: ['https://api.robinhoodboechout.be', 'https://dev.robinhoodboechout.be', 'http://localhost:3000'], credentials: true }));
 app.use(express.json());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
