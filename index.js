@@ -5,7 +5,24 @@ import config from './config.js';
 
 const app = express();
 
-app.use(cors({ origin: ['https://api.robinhoodboechout.be', 'https://robinhoodboechout.be', 'https://dev.robinhoodboechout.be', 'http://localhost:3000'], credentials: true }));
+const allowedOrigins = [
+  'https://api.robinhoodboechout.be',
+  'https://robinhoodboechout.be',
+  'https://dev.robinhoodboechout.be',
+  'http://localhost:3000'
+];
+
+app.use(cors({
+  origin: (origin, callback) => {
+    if (allowedOrigins.includes(origin) || !origin) {
+      callback(null, origin);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true
+}));
+
 app.use(express.json());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
