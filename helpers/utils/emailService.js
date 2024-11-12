@@ -24,8 +24,8 @@ const transporter = nodemailer.createTransport({
 
 
 export const sendEmailConfirmation = async (recipient, subject, subscriber_uuid) => {
-    const htmlTemplate = await readFileAsync(`../../templates/newSubscriber.html`, 'utf-8');
-    const imageAttachment = await readFileAsync('../../templates/logo-white.png');
+    const htmlTemplate = await readFileAsync(`./templates/newSubscriber.html`, 'utf-8');
+    const imageAttachment = await readFileAsync('./templates/logo-white.png');
     
     const info = await transporter.sendMail({
         from: config.emailConfig.sender,
