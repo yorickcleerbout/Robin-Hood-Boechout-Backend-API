@@ -17,6 +17,7 @@ const {
   LUCHTDOELSCHIETEN_ID,
   ROBIN_HOOD_BOECHOUT_ID,
   ANTWERPSE_FEDERATIE_ID,
+  BOOGWERELD_ID,
   EMAIL_USER,
   EMAIL_PASSWORD,
   EMAIL_FROM,
@@ -64,7 +65,8 @@ export default {
     apiKey: GOOGLE_CALENDAR_API_KEY,
     luchtdoelschietenId: LUCHTDOELSCHIETEN_ID,
     robinHoodBoechoutId: ROBIN_HOOD_BOECHOUT_ID,
-    antwerpseFederatieId: ANTWERPSE_FEDERATIE_ID
+    antwerpseFederatieId: ANTWERPSE_FEDERATIE_ID,
+    boogwereldId: BOOGWERELD_ID
   },
   emailConfig: {
     user: EMAIL_USER,

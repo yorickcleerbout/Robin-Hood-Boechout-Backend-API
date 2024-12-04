@@ -17,6 +17,9 @@ export const getEvents = async (req, res, next) => {
             case 'antwerpse-federatie':
                     calendarId = config.googleCalendarConfig.antwerpseFederatieId;
                     break;
+            case 'boogwereld':
+                    calendarId = config.googleCalendarConfig.boogwereldId;
+                    break;
             case 'boogsport-vlaanderen':
                 let bsvEvents = await getBSVEvents();
                 return res.status(200).send(bsvEvents);
