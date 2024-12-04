@@ -19,7 +19,8 @@ export const getEvents = async (req, res, next) => {
                     break;
             case 'boogwereld':
                     calendarId = config.googleCalendarConfig.boogwereldId;
-                    break;
+                    let boogwereldEvents = await getBoogwereldEvents(calendarId);
+                    return res.status(200).send(boogwereldEvents);
             case 'boogsport-vlaanderen':
                 let bsvEvents = await getBSVEvents();
                 return res.status(200).send(bsvEvents);
@@ -85,4 +86,32 @@ async function getBSVEvents() {
         })
     });
     return bsvEvents;
+}
+
+async function getBoogwereldEvents(calendarId) {
+    const response = await axios.get(`https://www.googleapis.com/calendar/v3/calendars/${calendarId}/events?timeMin=${new Date().toISOString()}&key=${config.googleCalendarConfig.apiKey}`);
+    let boogwereldEvents = [];
+    
+    response.data.items.forEach(event => {
+        let dateSplitStart = event.start.date.split('-');
+        let dateSplitEnd = event.end.date.split('-');
+        boogwereldEvents.push({
+            start: {
+                date: `${dateSplitStart[2]}/${dateSplitStart[1]}/${dateSplitStart[0]}`,
+                time: `00u00`
+            },
+            end: {
+                date: `${dateSplitEnd[2]}/${dateSplitEnd[1]}/${dateSplitEnd[0]}`,
+                time: `23u59`
+            },
+            details: {
+                title: event.summary,
+                description: event.description
+            },
+            location: event.location,
+            link: event.htmlLink
+
+        })
+    });
+    return boogwereldEvents;
 }
