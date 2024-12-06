@@ -2,6 +2,7 @@ import nodemailer from 'nodemailer';
 import fs from 'fs';
 import { promisify } from 'util';
 import config from '../../config.js';
+import path from 'path';
 
 const readFileAsync = promisify(fs.readFile);
 
@@ -24,7 +25,8 @@ const transporter = nodemailer.createTransport({
 
 
 export const sendEmailConfirmation = async (recipient, subject, subscriber_uuid) => {
-    const htmlTemplate = await readFileAsync(`./templates/newSubscriber.html`, 'utf-8');
+    const htmlTemplatePath = path.join(process.cwd(), 'templates', 'newSubscriber.html');
+    const htmlTemplate = await readFileAsync(htmlTemplatePath, 'utf-8');
     const imageAttachment = await readFileAsync('./templates/logo-white.png');
     
     const info = await transporter.sendMail({
