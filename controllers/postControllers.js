@@ -38,6 +38,12 @@ export const getPosts = async (req, res, next) => {
             postArray.push(post);
         });
 
+        postArray.sort((a, b) => {
+            const dateA = new Date(a.created_at.split("/").reverse().join("-"));
+            const dateB = new Date(b.created_at.split("/").reverse().join("-"));
+            return dateB - dateA; // Ascending order
+        });
+
         res.status(200).json(postArray);
         }
     } catch (error) {
