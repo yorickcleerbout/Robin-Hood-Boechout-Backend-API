@@ -5,6 +5,8 @@ import {
     collection,
     addDoc,
     getDocs,
+    doc,
+    deleteDoc,
     query,
     where
 } from 'firebase/firestore';
@@ -90,6 +92,22 @@ export const createPost = async (req, res, next) => {
             res.status(201).json(data);
         } else {
             res.status(409).send('Post already exists!')
+        }
+        
+    } catch (error) {
+        res.status(400).send(error.message);
+    }
+};
+
+export const deletePostById = async (req, res, next) => {
+    try {
+        let posts = await getDocs(query(collection(db, 'posts'), where('__name__', '==', req.params.id)));
+        
+        if (posts.empty) {
+            res.status(404).send(`No post found with id '${req.params.id}'.`);
+        } else {
+            await deleteDoc(doc(db, 'posts', req.params.id));
+            res.status(200).send(`Post with id '${req.params.id}' successfully deleted.`);
         }
         
     } catch (error) {
